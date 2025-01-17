@@ -57,7 +57,8 @@ jobs:
           password: ${{ secrets.GMAIL_PASSWORD }}  # GitHub Secret
           subject: "Deployment Successful - GitHub Pages"
           body: |
-            Your deployment to GitHub Pages was successful!
+            Sim Seangly (software Engineering )
+            Your deployment to GitHub Pages was successful! 😁
             URL: ${{ steps.deployment.outputs.page_url }}
           to: simseangly175@gmail.com
           from: ${{ secrets.GMAIL_USERNAME }}  # GitHub Secret
