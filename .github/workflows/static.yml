@@ -15,13 +15,12 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
@@ -31,15 +30,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Move files to root
+        run: |
+          # Move the contents of the src folder to the root
+          mv src/* .
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload only the contents of the src folder
-          path: './src'
+          path: '.'
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Send email notification on success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465  # SSL/TLS port
+          username: ${{ secrets.GMAIL_USERNAME }}  # GitHub Secret
+          password: ${{ secrets.GMAIL_PASSWORD }}  # GitHub Secret
+          subject: "Deployment Successful - GitHub Pages"
+          body: |
+            Your deployment to GitHub Pages was successful!
+            URL: ${{ steps.deployment.outputs.page_url }}
+          to: simseangly175@gmail.com
+          from: ${{ secrets.GMAIL_USERNAME }}  # GitHub Secret
+          secure: true  # Use SSL/TLS
