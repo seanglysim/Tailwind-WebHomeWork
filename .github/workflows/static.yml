@@ -61,6 +61,6 @@ jobs:
             Student: ISTAD Institute
             Your deployment to GitHub Pages was successful! 😁
             URL: ${{ steps.deployment.outputs.page_url }}
-          to: simseangly175@gmail.com
+          to: vannanich2@gmail.com
           from: ${{ secrets.GMAIL_USERNAME }}  # GitHub Secret
           secure: true  # Use SSL/TLS
